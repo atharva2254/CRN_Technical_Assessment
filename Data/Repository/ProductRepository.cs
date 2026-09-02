@@ -16,6 +16,22 @@ namespace CRN_Technical_Assessment.Data.Repository
             return await context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<(List<Product> Products, int TotalRecords)> GetRequiredAsync(int pageNumber, int pageSize)
+        {
+            var query = context.Products
+                .AsNoTracking()
+                .OrderBy(p => p.Id);
+
+            var totalRecords = await query.CountAsync();
+
+            var products = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (products, totalRecords);
+        }
+
         public async Task<Product> CreateAsync(Product product)
         {
             await context.Products.AddAsync(product);

@@ -19,11 +19,22 @@ namespace CRN_Technical_Assessment.API.Controllers
         }
 
         // GET: api/products
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var products = await _productService.GetAllProducts();
+
+        //    return Ok(products);
+        //}
+
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            var products = await _productService.GetAllProducts();
+            var products = await _productService.GetAllAsync(
+                pageNumber,
+                pageSize);
 
             return Ok(products);
         }

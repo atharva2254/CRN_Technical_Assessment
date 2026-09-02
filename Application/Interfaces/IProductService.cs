@@ -8,6 +8,7 @@ namespace CRN_Technical_Assessment.Application.Interfaces
         Task<List<Product>> GetAllProducts();
 
         Task<Product?> GetById(int id);
+        Task<PagedResponse<Product>> GetAllAsync(int pageNumber, int pageSize);
 
         Task<Product> CreateProduct(ProductDto request, string username);
 

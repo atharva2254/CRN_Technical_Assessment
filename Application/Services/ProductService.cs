@@ -24,6 +24,33 @@ namespace CRN_Technical_Assessment.Application.Services
             return product;
         }
 
+        public async Task<PagedResponse<Product>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var (products, totalRecords) = await productRepository.GetRequiredAsync(pageNumber, pageSize);
+
+            var productDtos = products
+                .Select(p => new Product
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    CreatedBy = p.CreatedBy,
+                    CreatedOn = p.CreatedOn,
+                    ModifiedBy = p.ModifiedBy,
+                    ModifiedOn = p.ModifiedOn
+                })
+                .ToList();
+
+            return new PagedResponse<Product>
+            {
+                Items = productDtos,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalRecords = totalRecords,
+                TotalPages = (int)Math.Ceiling(
+                    totalRecords / (double)pageSize)
+            };
+        }
+
         public async Task<Product> CreateProduct(ProductDto request, string username)
         { 
 

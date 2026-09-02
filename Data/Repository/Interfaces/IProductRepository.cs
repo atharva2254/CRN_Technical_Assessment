@@ -9,7 +9,9 @@ namespace CRN_Technical_Assessment.Data.Repository.Interfaces
         Task<Product?> GetByIdAsync(int id);
 
         Task<Product> CreateAsync(Product product);
-        
+
+        Task<(List<Product> Products, int TotalRecords)> GetRequiredAsync(int pageNumber, int pageSize);
+
         Task<Product?> UpdateAsync(Product product);
 
         Task<bool> DeleteAsync(int id);
